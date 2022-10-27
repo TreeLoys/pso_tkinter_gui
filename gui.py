@@ -254,11 +254,25 @@ def showGeneralErrors():
     canvas = FigureCanvasTkAgg(fig, canvasFrame)
     canvas.get_tk_widget().pack()
 
+def showBestParticles():
+    global e
+    fig = e.showGlobalXYGraphs()
+    global canvas
+    if canvas:
+        canvas.get_tk_widget().pack_forget()
+    # canvas = FigureCanvasTkAgg(e.drawHromoByStep(), canvasFrame)
+    canvas = FigureCanvasTkAgg(fig, canvasFrame)
+    canvas.get_tk_widget().pack()
+
 btnStartEvolution = tk.Button(framePSOParams,
                               text="Общий ошибок",
                               command=showGeneralErrors)
 btnStartEvolution.grid(column=5, row=1, padx=20)
 
+btnStartEvolution = tk.Button(framePSOParams,
+                              text="Лучшей частицы",
+                              command=showBestParticles)
+btnStartEvolution.grid(column=5, row=2, padx=20)
 
 # Другие параметры
 frame.grid(column=0, row=0, pady=5)

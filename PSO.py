@@ -322,6 +322,7 @@ class Evolution():
     def run(self):
         bestError = float("inf")
         self.errors = []
+        self.bestParticles = []
 
         for i in range(self.iteration):
             self.particles.update_velocity()
@@ -341,6 +342,8 @@ class Evolution():
 
             print("ЭПОХА:", i, " Лучшая позиция X: ", self.particles.Particle.global_best[1], "Y: ",
                   self.particles.Particle.global_best[2])
+            self.bestParticles.append([self.particles.Particle.global_best[1],
+                                       self.particles.Particle.global_best[2]])
             # if verbose:
                 # print(error)
             ###
@@ -415,6 +418,15 @@ class Evolution():
         # fig.show()
         return fig
 
+    def showGlobalXYGraphs(self):
+        fig, ax = pyplot.subplots(figsize=(8, 7))
+        x = [x for x in range(len(self.bestParticles))]
+        ax.plot(x, [x[0] for x in self.bestParticles], label="X лучшего")
+        ax.plot(x, [x[1] for x in self.bestParticles], label="Y лучшего")
+        ax.legend()
+        ax.set_title("График общей ошибки координат колонии")
+        # fig.show()
+        return fig
 
 if __name__ == "__main__":
     class Settings:
