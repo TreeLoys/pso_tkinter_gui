@@ -15,7 +15,7 @@ class Settings():
         self.populationSize = 20
         self.iteration = 80
         self.params = ({'num_particles': self.populationSize,
-                        'inertia': 0.1,
+                        'inertia': 0.8,
                         'cognition': 1.0,
                         'social_rate': 1.0,
                         'local_rate': 1.0,
@@ -156,7 +156,7 @@ window.style = Style()
 #window.style.theme_use("alt")
 window.option_add( "*font", "clearlyu 12" )
 window.title("Лабораторная работа Сиренко В. Н. Алгоритм PSO")
-window.geometry('1010x850')
+window.geometry('1010x900')
 
 
 titleFrame = Frame(window)

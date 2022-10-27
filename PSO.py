@@ -69,7 +69,9 @@ class Particle_List:
             переделал под объект settings
         """
         # [Q value, x_pos, y_pos]
-        global_best = [0.0, 0, 0]
+        # БЫЛО ДО
+        # global_best = [0.0, 0, 0]
+        global_best = [float("inf"), float("inf")]
         best_index = 0
 
         # takes index in p_list as constructor argument
@@ -260,6 +262,8 @@ class Particle_List:
         # print(f"Накопленная ошибка X:{error_x}, Y:{error_y}")
         return [error_x, error_y]
 
+
+
     ###########
 
     def params_to_CSV(self):
@@ -300,35 +304,6 @@ class Particle_List:
         f.close()
 
 
-########### distance functions
-
-# def mdist():
-#     global params
-#     return float(math.sqrt((params['world_width'] ** 2.0) + (params['world_height'] ** 2.0)) / 2.0)
-#
-#
-# ###########
-# def pdist(p_x, p_y):
-#     return float(math.sqrt(((p_x - 20.0) ** 2.0) + ((p_y - 7.0) ** 2.0)))
-#
-#
-# ###########
-# def ndist(p_x, p_y):
-#     return float(math.sqrt(((p_x + 20.0) ** 2.0) + ((p_y + 7.0) ** 2.0)))
-#
-#
-# ########### Problem 1
-# def Q(p_x, p_y):
-#     return float(100.0 * (1.0 - (pdist(p_x, p_y) / mdist())))
-
-
-########### Problem 2
-'''
-def Q(p_x,p_y):
-    return float((9.0 * max(0.0, 10.0 - (pdist(p_x,p_y)**2))) + (10.0 * (1.0 - (pdist(p_x,p_y)/mdist()))) + (70.0 * (1.0 - (ndist(p_x,p_y)/mdist()))))
-'''
-
-
 #### Перенос объекта эволюции (на самом деле он просто выполняет ролько контроллера эволюции или же перемещиния/)
 class Evolution():
     def __init__(self, settings):
@@ -363,6 +338,9 @@ class Evolution():
             self.errors.append(error)
             if not a_test:
                 self.particles.error_to_CSV(error)
+
+            print("ЭПОХА:", i, " Лучшая позиция X: ", self.particles.Particle.global_best[1], "Y: ",
+                  self.particles.Particle.global_best[2])
             # if verbose:
                 # print(error)
             ###
@@ -379,6 +357,8 @@ class Evolution():
             for p in self.particles.p_list:
                 self.toDrawByStepXYCoords[-1]['x'].append(p.x)
                 self.toDrawByStepXYCoords[-1]['y'].append(p.y)
+        print("#####################")
+        print("Лучшая позиция X: ", self.particles.Particle.global_best[1], "Y: ", self.particles.Particle.global_best[2])
 
     def drawInitArea(self):
         # Просто отрисовывает первоначальное состояние поля (тестовой функции)
@@ -427,7 +407,11 @@ class Evolution():
 
     def showGlobalErrorGraphs(self):
         fig, ax = pyplot.subplots(figsize=(8, 7))
-        ax.plot([x for x in range(len(self.errors))], [x[0] for x in self.errors], [x[1] for x in self.errors])
+        x = [x for x in range(len(self.errors))]
+        ax.plot(x, [x[0] for x in self.errors], label="X ошибка")
+        ax.plot(x, [x[1] for x in self.errors], label="Y ошибка")
+        ax.legend()
+        ax.set_title("График общей ошибки координат колонии")
         # fig.show()
         return fig
 
